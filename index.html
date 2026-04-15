@@ -41,6 +41,7 @@ input[type=file]{display:none}
 .deck-btn:active{background:#2a2a2a}
 .deck-btn.del:active{color:var(--red)}
 .deck-btn.edit:active{color:var(--blue)}
+.deck-btn.merge:active{color:var(--green)}
 .deck-arrow{color:var(--blue);font-size:24px;font-weight:300}
 .empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#444;text-align:center;gap:12px}
 .empty-icon{font-size:52px}
@@ -271,6 +272,7 @@ function renderDecks() {
         <div class="deck-count">${d.words.length}개 단어</div>
       </div>
       <div class="deck-actions">
+        <button class="deck-btn merge" onclick="mergeDeck(${i})">⊕</button>
         <button class="deck-btn edit" onclick="openEdit(${i})">✎</button>
         <button class="deck-btn del" onclick="deleteDeck(${i})">✕</button>
       </div>
@@ -281,6 +283,54 @@ function renderDecks() {
 function deleteDeck(idx) {
   if (!confirm(`"${decks[idx].name}" 단어장을 삭제할까요?`)) return;
   decks.splice(idx, 1);
+  saveDecks();
+  renderDecks();
+}
+
+function mergeDeck(idx) {
+  if (decks.length < 2) {
+    alert('합칠 단어장이 2개 이상 필요합니다.');
+    return;
+  }
+
+  const others = decks
+    .map((d, i) => ({ d, i }))
+    .filter(x => x.i !== idx);
+  const options = others.map((x, n) => `${n + 1}. ${x.d.name} (${x.d.words.length}개)`).join('\n');
+
+  const input = prompt(
+    `"${decks[idx].name}"에 합칠 단어장 번호를 선택하세요:\n\n${options}`
+  );
+  if (input === null) return;
+  const num = parseInt(input, 10);
+  if (num < 1 || num > others.length) {
+    alert('올바른 번호를 입력해 주세요.');
+    return;
+  }
+
+  const target = decks[idx];
+  const source = others[num - 1].d;
+  const sourceIdx = others[num - 1].i;
+
+  // 중복 제거하며 합치기
+  const existing = new Set(target.words.map(w => w.word.toLowerCase()));
+  let added = 0;
+  source.words.forEach(w => {
+    if (!existing.has(w.word.toLowerCase())) {
+      target.words.push({ ...w });
+      existing.add(w.word.toLowerCase());
+      added++;
+    }
+  });
+
+  const skipped = source.words.length - added;
+  const delSource = confirm(
+    `${added}개 추가 완료!${skipped > 0 ? ` (중복 ${skipped}개 제외)` : ''}\n\n"${source.name}" 원본을 삭제할까요?`
+  );
+  if (delSource) {
+    decks.splice(sourceIdx, 1);
+  }
+
   saveDecks();
   renderDecks();
 }
