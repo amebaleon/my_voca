@@ -31,14 +31,17 @@ input[type=file]{display:none}
 .upload-btn:active{background:var(--blue2)}
 .upload-btn svg{width:20px;height:20px;fill:#fff}
 .deck-list{flex:1;overflow-y:auto;margin-top:20px;padding-bottom:24px;-webkit-overflow-scrolling:touch}
-.deck-card{background:var(--card);border-radius:var(--radius);padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;transition:transform .1s}
-.deck-card:active{transform:scale(.97)}
-.deck-name{font-size:16px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:65%}
-.deck-meta{display:flex;align-items:center;gap:12px}
-.deck-count{font-size:12px;color:var(--sub);white-space:nowrap}
-.deck-del{width:28px;height:28px;border-radius:8px;background:#1a1a1a;color:#555;font-size:18px;display:flex;align-items:center;justify-content:center;border:1px solid #2a2a2a;transition:color .15s}
-.deck-del:active{color:var(--red)}
-.deck-arrow{color:var(--blue);font-size:22px;font-weight:300;margin-left:8px}
+.deck-card{background:var(--card);border-radius:var(--radius);padding:16px 18px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.deck-card:active{transform:scale(.97);transition:transform .1s}
+.deck-body{flex:1;min-width:0}
+.deck-name{font-size:16px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deck-count{font-size:12px;color:var(--sub);margin-top:3px}
+.deck-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.deck-btn{width:34px;height:34px;border-radius:9px;background:#1a1a1a;color:#666;font-size:15px;display:flex;align-items:center;justify-content:center;border:1px solid #2a2a2a}
+.deck-btn:active{background:#2a2a2a}
+.deck-btn.del:active{color:var(--red)}
+.deck-btn.edit:active{color:var(--blue)}
+.deck-arrow{color:var(--blue);font-size:24px;font-weight:300}
 .empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#444;text-align:center;gap:12px}
 .empty-icon{font-size:52px}
 .empty p{font-size:14px;line-height:1.6}
@@ -46,6 +49,9 @@ input[type=file]{display:none}
 /* ── TEST ── */
 #test{padding-top:max(env(safe-area-inset-top),48px)}
 .test-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.test-top-left{display:flex;align-items:center;gap:10px}
+.quit-btn{width:34px;height:34px;border-radius:9px;background:var(--card);color:#888;font-size:20px;display:flex;align-items:center;justify-content:center}
+.quit-btn:active{background:#2a2a2a}
 .progress-txt{font-size:14px;font-weight:600;color:var(--sub)}
 .skip-btn{padding:8px 16px;background:var(--card);border-radius:10px;font-size:13px;font-weight:600;color:var(--sub);transition:background .1s}
 .skip-btn:active{background:#2a2a2a}
@@ -60,6 +66,30 @@ input[type=file]{display:none}
 .choice-btn.wrong{background:var(--rbg);border-color:var(--red);color:var(--red)}
 .choice-btn.reveal{background:var(--gbg);border-color:var(--green);color:var(--green)}
 .choice-btn.disabled{pointer-events:none}
+
+/* ── EDIT ── */
+#edit{padding-top:max(env(safe-area-inset-top),48px)}
+.edit-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.back-btn{width:36px;height:36px;border-radius:10px;background:var(--card);color:#aaa;font-size:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.back-btn:active{background:#2a2a2a}
+.edit-title{font-size:20px;font-weight:800;color:#fff;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.edit-count{font-size:13px;color:var(--sub);flex-shrink:0}
+.edit-list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:16px}
+.edit-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--div)}
+.edit-word{flex:1;min-width:0}
+.edit-word input{width:100%;background:var(--card);border:1px solid #2a2a2a;border-radius:8px;padding:8px 10px;color:#fff;font-size:14px;font-weight:600;font-family:inherit}
+.edit-word input:focus{border-color:var(--blue);outline:none}
+.edit-meaning{flex:2;min-width:0}
+.edit-meaning input{width:100%;background:var(--card);border:1px solid #2a2a2a;border-radius:8px;padding:8px 10px;color:#a0a0a0;font-size:13px;font-family:inherit}
+.edit-meaning input:focus{border-color:var(--blue);outline:none}
+.edit-del{width:30px;height:30px;border-radius:8px;background:transparent;color:#444;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.edit-del:active{color:var(--red)}
+.edit-bottom{display:flex;gap:10px;flex-shrink:0;padding-top:12px}
+.edit-bottom button{flex:1;padding:14px;border-radius:var(--radius);font-size:14px;font-weight:700}
+.add-word-btn{background:var(--card2);color:var(--text);border:1px dashed #333}
+.add-word-btn:active{background:#2a2a2a}
+.save-btn{background:var(--blue);color:#fff}
+.save-btn:active{background:var(--blue2)}
 
 /* ── REVIEW ── */
 #review{padding-top:max(env(safe-area-inset-top),48px)}
@@ -100,14 +130,31 @@ input[type=file]{display:none}
 <!-- ═══════════ TEST ═══════════ -->
 <div id="test" class="screen">
   <div class="test-top">
-    <span class="progress-txt" id="progressTxt">1 / 100</span>
+    <div class="test-top-left">
+      <button class="quit-btn" onclick="quitTest()">✕</button>
+      <span class="progress-txt" id="progressTxt">1 / 100</span>
+    </div>
     <button class="skip-btn" onclick="handleSkip()">넘기기</button>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
   <div class="word-area">
-    <div class="word-display" id="wordDisplay">apple</div>
+    <div class="word-display" id="wordDisplay"></div>
   </div>
   <div class="choices" id="choicesGrid"></div>
+</div>
+
+<!-- ═══════════ EDIT ═══════════ -->
+<div id="edit" class="screen">
+  <div class="edit-header">
+    <button class="back-btn" onclick="saveAndBack()">←</button>
+    <div class="edit-title" id="editTitle"></div>
+    <div class="edit-count" id="editCount"></div>
+  </div>
+  <div class="edit-list" id="editList"></div>
+  <div class="edit-bottom">
+    <button class="add-word-btn" onclick="addWord()">+ 단어 추가</button>
+    <button class="save-btn" onclick="saveAndBack()">저장</button>
+  </div>
 </div>
 
 <!-- ═══════════ REVIEW ═══════════ -->
@@ -138,6 +185,10 @@ let testChoices = [];
 let reviewList = [];
 let currentDeck = null;
 let feedbackLocked = false;
+
+// Edit state
+let editDeckIdx = -1;
+let editWords = [];
 
 /* ============================================
    SCREEN NAV
@@ -206,19 +257,20 @@ function renderDecks() {
     return;
   }
   el.innerHTML = decks.map((d, i) => `
-    <div class="deck-card" onclick="startTest(${i})">
-      <span class="deck-name">${esc(d.name)}</span>
-      <div class="deck-meta">
-        <span class="deck-count">${d.words.length}개</span>
-        <button class="deck-del" onclick="deleteDeck(event,${i})" title="삭제">&times;</button>
-        <span class="deck-arrow">›</span>
+    <div class="deck-card">
+      <div class="deck-body" onclick="startTest(${i})">
+        <div class="deck-name">${esc(d.name)}</div>
+        <div class="deck-count">${d.words.length}개 단어</div>
+      </div>
+      <div class="deck-actions">
+        <button class="deck-btn edit" onclick="openEdit(${i})">✎</button>
+        <button class="deck-btn del" onclick="deleteDeck(${i})">✕</button>
       </div>
     </div>
   `).join('');
 }
 
-function deleteDeck(e, idx) {
-  e.stopPropagation();
+function deleteDeck(idx) {
   if (!confirm(`"${decks[idx].name}" 단어장을 삭제할까요?`)) return;
   decks.splice(idx, 1);
   saveDecks();
@@ -264,6 +316,14 @@ function startTest(deckIdx) {
 }
 
 /* ============================================
+   QUIT TEST
+   ============================================ */
+function quitTest() {
+  if (testIdx > 0 && !confirm('테스트를 종료할까요?\n진행 상황이 사라집니다.')) return;
+  showScreen('home');
+}
+
+/* ============================================
    RENDER QUESTION
    ============================================ */
 function renderQuestion() {
@@ -301,10 +361,8 @@ function handleChoice(idx) {
   const isCorrect = selected === wordObj.meaning;
 
   if (isCorrect) {
-    // 정답 → 즉시 다음
     goNext();
   } else {
-    // 오답 → 피드백 0.5초
     feedbackLocked = true;
     reviewList.push(wordObj);
 
@@ -354,6 +412,65 @@ function goNext() {
     return;
   }
   renderQuestion();
+}
+
+/* ============================================
+   EDIT DECK
+   ============================================ */
+function openEdit(idx) {
+  editDeckIdx = idx;
+  editWords = decks[idx].words.map(w => ({ ...w })); // deep copy
+  document.getElementById('editTitle').textContent = decks[idx].name;
+  renderEditList();
+  showScreen('edit');
+}
+
+function renderEditList() {
+  document.getElementById('editCount').textContent = `${editWords.length}개`;
+  const el = document.getElementById('editList');
+  el.innerHTML = editWords.map((w, i) => `
+    <div class="edit-row">
+      <div class="edit-word">
+        <input type="text" value="${esc(w.word)}" onchange="editWords[${i}].word=this.value" placeholder="영단어">
+      </div>
+      <div class="edit-meaning">
+        <input type="text" value="${esc(w.meaning)}" onchange="editWords[${i}].meaning=this.value" placeholder="뜻">
+      </div>
+      <button class="edit-del" onclick="removeWord(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function removeWord(idx) {
+  editWords.splice(idx, 1);
+  renderEditList();
+}
+
+function addWord() {
+  editWords.push({ word: '', meaning: '' });
+  renderEditList();
+  // 스크롤 맨 아래로
+  const el = document.getElementById('editList');
+  el.scrollTop = el.scrollHeight;
+  // 새 행의 첫 input에 포커스
+  const inputs = el.querySelectorAll('.edit-row:last-child input');
+  if (inputs[0]) inputs[0].focus();
+}
+
+function saveAndBack() {
+  // 현재 input 값을 실시간 반영 (onchange가 아직 안 된 경우 대비)
+  const rows = document.querySelectorAll('#editList .edit-row');
+  const updated = [];
+  rows.forEach((row, i) => {
+    const inputs = row.querySelectorAll('input');
+    const w = inputs[0].value.trim();
+    const m = inputs[1].value.trim();
+    if (w && m) updated.push({ word: w, meaning: m });
+  });
+
+  decks[editDeckIdx].words = updated;
+  saveDecks();
+  showScreen('home');
 }
 
 /* ============================================
