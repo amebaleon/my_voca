@@ -549,48 +549,16 @@ function downloadReviewXlsx() {
    REVIEW: ADD TO DECK
    ============================================ */
 function addReviewToDeck() {
-  const options = decks.map((d, i) => `${i + 1}. ${d.name}`).join('\n');
-  const msg = decks.length > 0
-    ? `오답 ${reviewList.length}개를 어디에 추가할까요?\n\n${options}\n\n0. 새 단어장 만들기\n\n번호를 입력하세요:`
-    : `오답 ${reviewList.length}개로 새 단어장을 만들까요?\n\n0을 입력하세요:`;
-
-  const input = prompt(msg);
-  if (input === null) return;
-  const num = parseInt(input, 10);
-
-  if (num === 0) {
-    // 새 단어장 생성
-    const name = prompt('새 단어장 이름을 입력하세요:', `오답노트`);
-    if (!name || !name.trim()) return;
-    const newDeck = {
-      id: Date.now(),
-      name: name.trim(),
-      words: reviewList.map(w => ({ ...w })),
-      createdAt: Date.now()
-    };
-    decks.push(newDeck);
-    saveDecks();
-    alert(`"${name.trim()}" 단어장이 생성되었습니다! (${reviewList.length}개)`);
-  } else if (num >= 1 && num <= decks.length) {
-    // 기존 단어장에 추가 (중복 제거)
-    const target = decks[num - 1];
-    const existing = new Set(target.words.map(w => w.word.toLowerCase()));
-    let added = 0;
-    reviewList.forEach(w => {
-      if (!existing.has(w.word.toLowerCase())) {
-        target.words.push({ ...w });
-        existing.add(w.word.toLowerCase());
-        added++;
-      }
-    });
-    saveDecks();
-    const skipped = reviewList.length - added;
-    let msg2 = `"${target.name}"에 ${added}개 추가 완료!`;
-    if (skipped > 0) msg2 += `\n(중복 ${skipped}개 제외)`;
-    alert(msg2);
-  } else {
-    alert('올바른 번호를 입력해 주세요.');
-  }
+  const today = new Date().toLocaleDateString('ko-KR').replace(/\. /g,'.').replace('.','');
+  const newDeck = {
+    id: Date.now(),
+    name: `오답노트 ${today}`,
+    words: reviewList.map(w => ({ ...w })),
+    createdAt: Date.now()
+  };
+  decks.push(newDeck);
+  saveDecks();
+  alert(`"${newDeck.name}" 단어장 생성! (${reviewList.length}개)`);
 }
 
 
