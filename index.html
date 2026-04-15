@@ -549,10 +549,11 @@ function downloadReviewXlsx() {
    REVIEW: ADD TO DECK
    ============================================ */
 function addReviewToDeck() {
-  const today = new Date().toLocaleDateString('ko-KR').replace(/\. /g,'.').replace('.','');
+  const today = new Date().toLocaleDateString('ko-KR').replace(/\. /g,'.').replace(/\.$/,'');
+  const deckName = currentDeck ? currentDeck.name : '';
   const newDeck = {
     id: Date.now(),
-    name: `오답노트 ${today}`,
+    name: `${deckName} 오답 ${today}`,
     words: reviewList.map(w => ({ ...w })),
     createdAt: Date.now()
   };
