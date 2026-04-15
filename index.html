@@ -510,15 +510,9 @@ function showReview() {
       </div>
     `).join('');
 
-    let shareBtn = '';
-    if (navigator.share) {
-      shareBtn = `<button onclick="shareReview()"><span class="act-icon">↗</span>공유</button>`;
-    }
-
     actionsEl.innerHTML = `
       <button onclick="downloadReviewXlsx()"><span class="act-icon">↓</span>엑셀 저장</button>
       <button onclick="addReviewToDeck()"><span class="act-icon">+</span>단어장 추가</button>
-      ${shareBtn}
     `;
   }
 
@@ -596,29 +590,6 @@ function addReviewToDeck() {
   }
 }
 
-/* ============================================
-   REVIEW: SHARE
-   ============================================ */
-function shareReview() {
-  const total = testQueue.length;
-  const correct = total - reviewList.length;
-  const pct = Math.round((correct / total) * 100);
-
-  let text = `⚡ Voca Flash 결과\n`;
-  text += `${total}문제 중 ${correct}개 정답 (${pct}%)\n\n`;
-
-  if (reviewList.length > 0) {
-    text += `📝 틀린 단어 ${reviewList.length}개:\n`;
-    reviewList.forEach(w => {
-      text += `• ${w.word} — ${w.meaning}\n`;
-    });
-  }
-
-  navigator.share({
-    title: 'Voca Flash 학습 결과',
-    text: text
-  }).catch(() => {});
-}
 
 /* ── PWA Service Worker ── */
 if ('serviceWorker' in navigator) {
