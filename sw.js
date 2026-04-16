@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vocaflash-v7';
+const CACHE_NAME = 'vocaflash-v8';
 const ASSETS = [
   './',
   './index.html',

@@ -73,7 +73,9 @@ input[type=file]{display:none}
 .edit-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .back-btn{width:36px;height:36px;border-radius:10px;background:var(--card);color:#aaa;font-size:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .back-btn:active{background:#2a2a2a}
-.edit-title{font-size:20px;font-weight:800;color:#fff;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.edit-title{flex:1;min-width:0}
+.edit-title input{width:100%;background:var(--card);border:1px solid #2a2a2a;border-radius:10px;padding:10px 12px;color:#fff;font-size:17px;font-weight:700;font-family:inherit}
+.edit-title input:focus{border-color:var(--blue);outline:none}
 .edit-count{font-size:13px;color:var(--sub);flex-shrink:0}
 .edit-list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:16px}
 .edit-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--div)}
@@ -153,7 +155,9 @@ input[type=file]{display:none}
 <div id="edit" class="screen">
   <div class="edit-header">
     <button class="back-btn" onclick="saveAndBack()">←</button>
-    <div class="edit-title" id="editTitle"></div>
+    <div class="edit-title">
+      <input type="text" id="editTitleInput" placeholder="단어장 이름">
+    </div>
     <div class="edit-count" id="editCount"></div>
   </div>
   <div class="edit-list" id="editList"></div>
@@ -478,7 +482,7 @@ function goNext() {
 function openEdit(idx) {
   editDeckIdx = idx;
   editWords = decks[idx].words.map(w => ({ ...w })); // deep copy
-  document.getElementById('editTitle').textContent = decks[idx].name;
+  document.getElementById('editTitleInput').value = decks[idx].name;
   renderEditList();
   showScreen('edit');
 }
@@ -516,6 +520,10 @@ function addWord() {
 }
 
 function saveAndBack() {
+  // 단어장 이름 업데이트
+  const newName = document.getElementById('editTitleInput').value.trim();
+  if (newName) decks[editDeckIdx].name = newName;
+
   // 현재 input 값을 실시간 반영 (onchange가 아직 안 된 경우 대비)
   const rows = document.querySelectorAll('#editList .edit-row');
   const updated = [];
