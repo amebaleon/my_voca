@@ -1458,18 +1458,18 @@ function sRenderQuestion() {
 
   document.getElementById('progressTxt').textContent = `${progress} / ${total}`;
   document.getElementById('progressFill').style.width = `${(progress / total) * 100}%`;
-  document.getElementById('sMeaning').textContent = item.meaning;
+  document.getElementById('sMeaning').textContent = item.sentence;  // A열 = 문제(한국어)
   document.getElementById('sRevealAns').textContent = '';
   document.getElementById('sCheckBtn').disabled = true;
 
-  sTokens = tokenizeSentence(item.sentence);
+  sTokens = tokenizeSentence(item.meaning);  // B열 = 정답(영어 문장)
   // Build bank: preserve token, shuffle order
   const indexed = sTokens.map((t, i) => ({ id: i, token: t, placed: false }));
   sBank = shuffle(indexed);
   sSelected = [];
 
   renderSentenceUI();
-  speakWord(item.sentence, 'en-US');
+  speakWord(item.meaning, 'en-US');  // B열 = 영어 문장
   startTimer();
 }
 
@@ -1533,12 +1533,12 @@ function sCheckAnswer() {
   const slots = document.getElementById('sSlots');
   if (isCorrect) {
     slots.classList.add('correct');
-    document.getElementById('sRevealAns').textContent = `✓ ${item.sentence}`;
+    document.getElementById('sRevealAns').textContent = `✓ ${item.meaning}`;
     setTimeout(() => { feedbackLocked = false; goNext(); }, 700);
   } else {
     reviewList.push(item);
     slots.classList.add('wrong');
-    document.getElementById('sRevealAns').textContent = `✓ ${item.sentence}`;
+    document.getElementById('sRevealAns').textContent = `✓ ${item.meaning}`;
     setTimeout(() => { feedbackLocked = false; goNext(); }, 1800);
   }
 }
@@ -1552,7 +1552,7 @@ function sHandleSkip(isTimeout) {
   recordSolved();
   updateCombo(false);
   document.getElementById('sSlots').classList.add('wrong');
-  document.getElementById('sRevealAns').textContent = `✓ ${item.sentence}`;
+  document.getElementById('sRevealAns').textContent = `✓ ${item.meaning}`;
   setTimeout(() => { feedbackLocked = false; goNext(); }, 1800);
 }
 
