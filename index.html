@@ -112,6 +112,12 @@ input[type=file]{display:none}
 .mode-desc{font-size:12px;color:var(--sub);margin-top:3px}
 .modal-cancel{width:100%;margin-top:14px;padding:12px;background:transparent;color:var(--sub);font-size:14px;font-weight:600;border-radius:10px}
 .modal-cancel:active{background:var(--card2)}
+.modal-section-label{font-size:11px;font-weight:700;color:var(--sub);margin-bottom:8px;letter-spacing:.5px}
+.dir-toggle{display:flex;gap:4px;background:var(--card2);border-radius:10px;padding:3px;border:1px solid var(--border);margin-bottom:14px}
+.dir-btn{flex:1;padding:10px 6px;border-radius:8px;font-size:13px;font-weight:700;color:var(--sub);background:transparent;transition:background .15s,color .15s}
+.dir-btn.active{background:var(--blue);color:#fff}
+.word-hint{font-size:12px;color:var(--sub);margin-top:8px}
+.deck-btn.share:active{color:var(--blue)}
 
 /* ── TEST ── */
 #test{padding-top:max(env(safe-area-inset-top),48px)}
@@ -146,16 +152,66 @@ input[type=file]{display:none}
 .typing-submit:active{background:var(--blue2)}
 .typing-submit:disabled{opacity:.5;pointer-events:none}
 
-/* ── COMBO BADGE ── */
-.combo-badge{position:absolute;top:30px;right:0;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:800;box-shadow:0 4px 14px rgba(239,68,68,.4);opacity:0;transform:scale(.5) translateY(-10px);transition:all .25s cubic-bezier(.34,1.56,.64,1);pointer-events:none;z-index:10}
+/* ── COMBO BADGE (top-right only) ── */
+.combo-badge{position:fixed;top:max(env(safe-area-inset-top),16px);right:16px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:800;box-shadow:0 4px 14px rgba(239,68,68,.4);opacity:0;transform:scale(.6) translateY(-6px);transition:all .22s cubic-bezier(.34,1.56,.64,1);pointer-events:none;z-index:200}
 .combo-badge.show{opacity:1;transform:scale(1) translateY(0)}
-.combo-badge.pop{animation:comboPop .4s cubic-bezier(.34,1.56,.64,1)}
-@keyframes comboPop{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}
-.combo-icon{margin-right:4px}
-/* Milestone effect */
-.combo-burst{position:absolute;inset:0;pointer-events:none;z-index:5;opacity:0}
-.combo-burst.fire{animation:burstFlash .6s ease-out}
-@keyframes burstFlash{0%{opacity:0}20%{opacity:1;background:radial-gradient(circle at center,rgba(251,191,36,.3),transparent 60%)}100%{opacity:0;background:radial-gradient(circle at center,rgba(251,191,36,0),transparent 60%)}}
+.combo-badge.pop{animation:comboPop .35s cubic-bezier(.34,1.56,.64,1)}
+@keyframes comboPop{0%{transform:scale(1)}50%{transform:scale(1.18)}100%{transform:scale(1)}}
+.combo-icon{margin-right:3px}
+
+/* ── TIMER ── */
+.timer{font-size:13px;font-weight:700;color:var(--sub);background:var(--card);padding:6px 10px;border-radius:8px;min-width:44px;text-align:center}
+.timer.warn{color:var(--red);background:var(--rbg)}
+
+/* ── HOME TABS ── */
+.tab-bar{display:flex;gap:4px;background:var(--card);border-radius:12px;padding:4px;border:1px solid var(--border);margin-bottom:14px}
+.tab-btn{flex:1;padding:10px;border-radius:9px;font-size:14px;font-weight:700;color:var(--sub);background:transparent;transition:background .15s,color .15s}
+.tab-btn.active{background:var(--blue);color:#fff}
+@media(hover:hover){.tab-btn:not(.active):hover{background:var(--card2);color:var(--text)}}
+
+/* ── SENTENCE TEST ── */
+.sentence-area{display:none;flex:1;flex-direction:column;min-height:0;padding-top:6px}
+.sentence-area.active{display:flex}
+.sentence-meaning{font-size:clamp(18px,4.5vw,22px);font-weight:700;color:var(--text-strong);text-align:center;padding:14px 8px;line-height:1.5;flex-shrink:0}
+.sentence-slots{background:var(--card);border-radius:12px;padding:14px 10px;min-height:80px;display:flex;flex-wrap:wrap;gap:6px;align-items:flex-start;border:1.5px dashed var(--border);margin-bottom:14px;flex-shrink:0}
+.sentence-slots.correct{border-color:var(--green);background:var(--gbg)}
+.sentence-slots.wrong{border-color:var(--red);background:var(--rbg)}
+.sentence-bank{flex:1;overflow-y:auto;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;padding-bottom:12px;-webkit-overflow-scrolling:touch}
+.tok-btn{background:var(--card2);color:var(--text-strong);padding:10px 14px;border-radius:10px;font-size:15px;font-weight:600;border:1.5px solid var(--border);transition:all .12s;font-family:inherit}
+.tok-btn:active{transform:scale(.94)}
+@media(hover:hover){.tok-btn:hover{background:var(--card3);border-color:var(--blue)}}
+.tok-btn.placed{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tok-btn.hidden-slot{visibility:hidden}
+.sentence-check{padding:14px;background:var(--blue);color:#fff;font-size:15px;font-weight:700;border-radius:var(--radius);margin-top:6px;flex-shrink:0;transition:background .15s}
+.sentence-check:disabled{opacity:.4;pointer-events:none}
+@media(hover:hover){.sentence-check:not(:disabled):hover{background:var(--blue2)}}
+.sentence-answer-reveal{font-size:13px;color:var(--green);font-weight:600;text-align:center;min-height:18px;margin-bottom:6px}
+
+/* ── HOVER EFFECTS (desktop) ── */
+@media(hover:hover){
+  .icon-btn:hover{background:var(--card2);color:var(--text)}
+  .upload-btn:hover{background:var(--blue2)}
+  .deck-card:hover{border-color:var(--blue);cursor:pointer}
+  .deck-btn:hover{background:var(--card2)}
+  .deck-btn.del:hover{color:var(--red)}
+  .deck-btn.edit:hover{color:var(--blue)}
+  .deck-btn.merge:hover{color:var(--green)}
+  .deck-btn.share:hover{color:var(--blue)}
+  .sort-tab:not(.active):hover{color:var(--text)}
+  .choice-btn:hover{background:var(--card3);border-color:var(--border)}
+  .mode-opt:hover{border-color:var(--blue)}
+  .dir-btn:not(.active):hover{color:var(--text)}
+  .quit-btn:hover{background:var(--card2);color:var(--text)}
+  .skip-btn:hover{background:var(--card2);color:var(--text)}
+  .back-btn:hover{background:var(--card2);color:var(--text)}
+  .typing-submit:hover{background:var(--blue2)}
+  .save-btn:hover{background:var(--blue2)}
+  .home-btn:hover{background:var(--blue2)}
+  .add-word-btn:hover{background:var(--card3)}
+  .modal-cancel:hover{background:var(--card2);color:var(--text)}
+  .review-actions button:hover{background:var(--card3)}
+  .edit-del:hover{color:var(--red)}
+}
 
 /* ── EDIT ── */
 #edit{padding-top:max(env(safe-area-inset-top),48px)}
@@ -176,6 +232,11 @@ input[type=file]{display:none}
 .edit-meaning input:focus{border-color:var(--blue);outline:none}
 .edit-del{width:30px;height:30px;border-radius:8px;background:transparent;color:var(--faint);font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .edit-del:active{color:var(--red)}
+.time-limit-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--div);flex-shrink:0}
+.time-limit-row label{font-size:13px;color:var(--sub);font-weight:600;flex-shrink:0}
+.time-limit-row input{width:70px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text-strong);font-size:14px;font-weight:600;font-family:inherit;text-align:center}
+.time-limit-row input:focus{border-color:var(--blue);outline:none}
+.time-limit-row .tl-hint{font-size:11px;color:var(--sub);flex:1}
 .edit-bottom{display:flex;gap:10px;flex-shrink:0;padding-top:12px}
 .edit-bottom button{flex:1;padding:14px;border-radius:var(--radius);font-size:14px;font-weight:700}
 .add-word-btn{background:var(--card2);color:var(--text);border:1px dashed var(--border)}
@@ -223,12 +284,16 @@ input[type=file]{display:none}
     <p>무한 반복으로 영단어 각인</p>
   </div>
   <div class="streak-bar" id="streakBar"></div>
-  <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+  <button class="upload-btn" onclick="openUploadTypeModal()">
     <svg viewBox="0 0 24 24"><path d="M12 2a1 1 0 011 1v10.586l3.293-3.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L11 13.586V3a1 1 0 011-1zM5 20a1 1 0 110 2h14a1 1 0 110-2H5z"/></svg>
     엑셀 파일 업로드 (.xlsx)
   </button>
   <input type="file" id="fileInput" accept=".xlsx,.xls" onchange="handleFile(event)">
-  <div class="sort-row" id="sortRow" style="display:none">
+  <div class="tab-bar" style="margin-top:14px">
+    <button class="tab-btn active" data-tab="word" onclick="setTab('word')">📘 단어</button>
+    <button class="tab-btn" data-tab="sentence" onclick="setTab('sentence')">📝 문장</button>
+  </div>
+  <div class="sort-row" id="sortRow" style="display:none;margin-top:4px">
     <span class="sort-label">정렬</span>
     <div class="sort-tabs">
       <button class="sort-tab" data-sort="recent" onclick="setSort('recent')">최근</button>
@@ -239,26 +304,70 @@ input[type=file]{display:none}
   <div class="deck-list" id="deckList"></div>
 </div>
 
+<!-- ═══════════ UPLOAD TYPE MODAL ═══════════ -->
+<div class="modal-overlay" id="uploadTypeModal">
+  <div class="modal-card">
+    <div class="modal-title">어떤 종류인가요?</div>
+    <div class="modal-sub">엑셀의 A열 = 문제, B열 = 뜻</div>
+    <div class="mode-options">
+      <button class="mode-opt" onclick="pickUploadType('word')">
+        <div class="mode-icon">📘</div>
+        <div class="mode-info">
+          <div class="mode-name">단어장</div>
+          <div class="mode-desc">단어 ↔ 뜻 암기</div>
+        </div>
+      </button>
+      <button class="mode-opt" onclick="pickUploadType('sentence')">
+        <div class="mode-icon">📝</div>
+        <div class="mode-info">
+          <div class="mode-name">문장 암기</div>
+          <div class="mode-desc">뜻 보고 영어 문장 순서 배열</div>
+        </div>
+      </button>
+    </div>
+    <button class="modal-cancel" onclick="closeUploadTypeModal()">취소</button>
+  </div>
+</div>
+
 <!-- ═══════════ MODE MODAL ═══════════ -->
 <div class="modal-overlay" id="modeModal">
   <div class="modal-card">
     <div class="modal-title">학습 모드 선택</div>
     <div class="modal-sub" id="modeSub"></div>
-    <div class="mode-options">
-      <button class="mode-opt" onclick="confirmMode('choice')">
-        <div class="mode-icon">🎯</div>
-        <div class="mode-info">
-          <div class="mode-name">4지선다</div>
-          <div class="mode-desc">빠른 클릭으로 단어를 각인</div>
-        </div>
-      </button>
-      <button class="mode-opt" onclick="confirmMode('typing')">
-        <div class="mode-icon">⌨️</div>
-        <div class="mode-info">
-          <div class="mode-name">직접 입력</div>
-          <div class="mode-desc">뜻을 직접 타이핑해서 암기</div>
-        </div>
-      </button>
+    <div id="modeWordOptions">
+      <div class="modal-section-label">방향</div>
+      <div class="dir-toggle">
+        <button class="dir-btn active" id="dirNormal" onclick="setDirection('normal')">단어 → 뜻</button>
+        <button class="dir-btn" id="dirReverse" onclick="setDirection('reverse')">뜻 → 단어</button>
+      </div>
+      <div class="modal-section-label">유형</div>
+      <div class="mode-options">
+        <button class="mode-opt" onclick="confirmMode('choice')">
+          <div class="mode-icon">🎯</div>
+          <div class="mode-info">
+            <div class="mode-name">4지선다</div>
+            <div class="mode-desc">빠른 클릭으로 각인</div>
+          </div>
+        </button>
+        <button class="mode-opt" onclick="confirmMode('typing')">
+          <div class="mode-icon">⌨️</div>
+          <div class="mode-info">
+            <div class="mode-name">직접 입력</div>
+            <div class="mode-desc">타이핑해서 암기 (유연한 채점)</div>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div id="modeSentenceOptions" style="display:none">
+      <div class="mode-options">
+        <button class="mode-opt" onclick="confirmMode('order')">
+          <div class="mode-icon">🧩</div>
+          <div class="mode-info">
+            <div class="mode-name">단어 순서 배열</div>
+            <div class="mode-desc">뜻을 보고 영어 문장 순서 맞추기</div>
+          </div>
+        </button>
+      </div>
     </div>
     <button class="modal-cancel" onclick="closeModeModal()">취소</button>
   </div>
@@ -266,26 +375,39 @@ input[type=file]{display:none}
 
 <!-- ═══════════ TEST ═══════════ -->
 <div id="test" class="screen">
+  <div class="combo-badge" id="comboBadge"><span class="combo-icon">🔥</span><span id="comboNum">5</span> 콤보!</div>
   <div class="test-top">
     <div class="test-top-left">
       <button class="quit-btn" onclick="quitTest()">✕</button>
       <span class="progress-txt" id="progressTxt">1 / 100</span>
     </div>
-    <button class="skip-btn" onclick="handleSkip()">넘기기</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="timer" id="timer" style="display:none"></span>
+      <button class="icon-btn" id="ttsToggle" onclick="toggleTts()" title="발음">🔊</button>
+      <button class="skip-btn" onclick="handleSkip()">넘기기</button>
+    </div>
   </div>
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-  <div class="word-area">
-    <div class="combo-burst" id="comboBurst"></div>
-    <div class="combo-badge" id="comboBadge"><span class="combo-icon">🔥</span><span id="comboNum">5</span> 콤보!</div>
-    <div class="word-display" id="wordDisplay"></div>
+
+  <!-- Word mode -->
+  <div class="word-area" id="wordArea">
+    <div class="word-display" id="wordDisplay" onclick="replaySpeak()"></div>
+    <div class="word-hint" id="wordHint"></div>
   </div>
-  <!-- Choice mode -->
   <div class="choices" id="choicesGrid"></div>
-  <!-- Typing mode -->
   <div class="typing-area" id="typingArea">
     <div class="typing-answer" id="typingAnswer"></div>
     <input type="text" class="typing-input" id="typingInput" placeholder="뜻을 입력하세요" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
     <button class="typing-submit" id="typingSubmit" onclick="handleTypingSubmit()">확인 (Enter)</button>
+  </div>
+
+  <!-- Sentence mode -->
+  <div class="sentence-area" id="sentenceArea">
+    <div class="sentence-meaning" id="sMeaning"></div>
+    <div class="sentence-slots" id="sSlots"></div>
+    <div class="sentence-answer-reveal" id="sRevealAns"></div>
+    <div class="sentence-bank" id="sBank"></div>
+    <button class="sentence-check" id="sCheckBtn" onclick="sCheckAnswer()" disabled>확인</button>
   </div>
 </div>
 
@@ -298,9 +420,14 @@ input[type=file]{display:none}
     </div>
     <div class="edit-count" id="editCount"></div>
   </div>
+  <div class="time-limit-row">
+    <label>⏱️ 문항별 제한시간</label>
+    <input type="number" id="editTimeLimit" min="0" max="300" placeholder="0">
+    <span class="tl-hint">초 (0 = 제한 없음)</span>
+  </div>
   <div class="edit-list" id="editList"></div>
   <div class="edit-bottom">
-    <button class="add-word-btn" onclick="addWord()">+ 단어 추가</button>
+    <button class="add-word-btn" onclick="addWord()">+ 항목 추가</button>
     <button class="save-btn" onclick="saveAndBack()">저장</button>
   </div>
 </div>
@@ -330,12 +457,23 @@ const STORAGE_KEY = 'vocaflash_decks';
 const THEME_KEY = 'vocaflash_theme';
 const SORT_KEY = 'vocaflash_sort';
 const STREAK_KEY = 'vocaflash_streak';
+const TAB_KEY = 'vocaflash_tab';
+const TTS_KEY = 'vocaflash_tts';
 
 let decks = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+// Migration: ensure 'type' field exists
+decks.forEach(d => {
+  if (!d.type) d.type = d.sentences ? 'sentence' : 'word';
+  if (!d.timeLimit) d.timeLimit = 0;
+});
+
 let currentSort = localStorage.getItem(SORT_KEY) || 'recent';
+let currentTab = localStorage.getItem(TAB_KEY) || 'word';
+let ttsEnabled = localStorage.getItem(TTS_KEY) !== 'off';
 
 // Test state
-let testMode = 'choice'; // 'choice' | 'typing'
+let testMode = 'choice'; // 'choice' | 'typing' | 'order'
+let testDirection = 'normal'; // 'normal' | 'reverse'
 let testQueue = [];
 let testIdx = 0;
 let testChoices = [];
@@ -344,15 +482,34 @@ let currentDeck = null;
 let currentDeckIdx = -1;
 let feedbackLocked = false;
 
+// Timer
+let timerInterval = null;
+let timerRemaining = 0;
+let timerActive = false;
+
 // Combo
 let comboCount = 0;
 
 // Edit state
 let editDeckIdx = -1;
-let editWords = [];
+let editItems = [];
 
-// Pending mode modal deck
+// Pending
 let pendingDeckIdx = -1;
+let pendingUploadType = 'word';
+
+/* ============================================
+   DECK HELPERS
+   ============================================ */
+function deckType(d) { return d.type || (d.sentences ? 'sentence' : 'word'); }
+function deckItems(d) { return deckType(d) === 'sentence' ? (d.sentences || []) : (d.words || []); }
+function deckItemLabel(d, item) {
+  return deckType(d) === 'sentence' ? item.sentence : item.word;
+}
+function setDeckItems(d, arr) {
+  if (deckType(d) === 'sentence') { d.sentences = arr; delete d.words; }
+  else { d.words = arr; delete d.sentences; }
+}
 
 /* ============================================
    THEME
@@ -456,9 +613,22 @@ function showScreen(id) {
 /* ============================================
    EXCEL PARSE
    ============================================ */
+function openUploadTypeModal() {
+  document.getElementById('uploadTypeModal').classList.add('active');
+}
+function closeUploadTypeModal() {
+  document.getElementById('uploadTypeModal').classList.remove('active');
+}
+function pickUploadType(type) {
+  pendingUploadType = type;
+  closeUploadTypeModal();
+  document.getElementById('fileInput').click();
+}
+
 function handleFile(e) {
   const file = e.target.files[0];
   if (!file) return;
+  const type = pendingUploadType || 'word';
   const reader = new FileReader();
   reader.onload = function(evt) {
     try {
@@ -467,30 +637,37 @@ function handleFile(e) {
       const sheet = wb.Sheets[wb.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
 
-      const words = [];
+      const items = [];
       for (let i = 0; i < rows.length; i++) {
-        const w = String(rows[i][0] || '').trim();
-        const m = String(rows[i][1] || '').trim();
-        if (!w || !m) continue;
-        if (i === 0 && w.toLowerCase() === 'word') continue;
-        words.push({ word: w, meaning: m });
+        const a = String(rows[i][0] || '').trim();
+        const b = String(rows[i][1] || '').trim();
+        if (!a || !b) continue;
+        if (i === 0 && ['word','sentence'].includes(a.toLowerCase())) continue;
+        if (type === 'sentence') items.push({ sentence: a, meaning: b });
+        else items.push({ word: a, meaning: b });
       }
 
-      if (words.length === 0) {
-        alert('유효한 단어를 찾을 수 없습니다.\n1열: Word, 2열: Meaning 형식을 확인하세요.');
+      if (items.length === 0) {
+        alert('유효한 항목이 없습니다.\n1열: ' + (type==='sentence'?'문장':'단어') + ', 2열: 뜻');
         return;
       }
 
       const name = file.name.replace(/\.xlsx?$/i, '');
       const deck = {
         id: Date.now(),
+        type,
         name,
-        words,
         createdAt: Date.now(),
-        lastStudiedAt: 0
+        lastStudiedAt: 0,
+        timeLimit: 0
       };
+      if (type === 'sentence') deck.sentences = items;
+      else deck.words = items;
+
       decks.push(deck);
       saveDecks();
+      currentTab = type;
+      localStorage.setItem(TAB_KEY, currentTab);
       renderDecks();
     } catch (err) {
       alert('파일 읽기 오류: ' + err.message);
@@ -498,6 +675,18 @@ function handleFile(e) {
   };
   reader.readAsArrayBuffer(file);
   e.target.value = '';
+}
+
+/* ============================================
+   TAB
+   ============================================ */
+function setTab(tab) {
+  currentTab = tab;
+  localStorage.setItem(TAB_KEY, tab);
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  renderDecks();
 }
 
 /* ============================================
@@ -517,7 +706,9 @@ function setSort(mode) {
 }
 
 function getSortedDecks() {
-  const arr = decks.map((d, i) => ({ d, origIdx: i }));
+  const arr = decks
+    .map((d, i) => ({ d, origIdx: i }))
+    .filter(x => deckType(x.d) === currentTab);
   if (currentSort === 'name') {
     arr.sort((a, b) => a.d.name.localeCompare(b.d.name, 'ko'));
   } else if (currentSort === 'recent') {
@@ -536,32 +727,44 @@ function renderDecks() {
   document.querySelectorAll('.sort-tab').forEach(t => {
     t.classList.toggle('active', t.dataset.sort === currentSort);
   });
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === currentTab);
+  });
 
   const el = document.getElementById('deckList');
   const sortRow = document.getElementById('sortRow');
+  const sorted = getSortedDecks();
 
-  if (decks.length === 0) {
-    el.innerHTML = '<div class="empty"><span class="empty-icon">📚</span><p>단어장이 없습니다<br>엑셀 파일을 업로드해 주세요</p></div>';
+  if (sorted.length === 0) {
+    const msg = currentTab === 'sentence'
+      ? '문장 암기장이 없습니다<br>엑셀 업로드 → 문장 암기 선택'
+      : '단어장이 없습니다<br>엑셀 파일을 업로드해 주세요';
+    const icon = currentTab === 'sentence' ? '📝' : '📚';
+    el.innerHTML = `<div class="empty"><span class="empty-icon">${icon}</span><p>${msg}</p></div>`;
     sortRow.style.display = 'none';
     return;
   }
 
-  sortRow.style.display = decks.length >= 2 ? 'flex' : 'none';
+  sortRow.style.display = sorted.length >= 2 ? 'flex' : 'none';
 
-  const sorted = getSortedDecks();
-  el.innerHTML = sorted.map(({ d, origIdx }) => `
+  const unit = currentTab === 'sentence' ? '문장' : '단어';
+  el.innerHTML = sorted.map(({ d, origIdx }) => {
+    const cnt = deckItems(d).length;
+    const tl = d.timeLimit ? ` · ⏱${d.timeLimit}초` : '';
+    return `
     <div class="deck-card">
       <div class="deck-body" onclick="openModeModal(${origIdx})">
         <div class="deck-name">${esc(d.name)}</div>
-        <div class="deck-count">${d.words.length}개 단어${d.lastStudiedAt ? ` · ${formatAgo(d.lastStudiedAt)}` : ''}</div>
+        <div class="deck-count">${cnt}개 ${unit}${tl}${d.lastStudiedAt ? ` · ${formatAgo(d.lastStudiedAt)}` : ''}</div>
       </div>
       <div class="deck-actions">
+        <button class="deck-btn share" onclick="shareDeck(${origIdx})" title="링크 공유">🔗</button>
         <button class="deck-btn merge" onclick="mergeDeck(${origIdx})">⊕</button>
         <button class="deck-btn edit" onclick="openEdit(${origIdx})">✎</button>
         <button class="deck-btn del" onclick="deleteDeck(${origIdx})">✕</button>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function formatAgo(ts) {
@@ -581,50 +784,106 @@ function deleteDeck(idx) {
 }
 
 function mergeDeck(idx) {
-  if (decks.length < 2) {
-    alert('합칠 단어장이 2개 이상 필요합니다.');
-    return;
-  }
-
+  const target = decks[idx];
+  const type = deckType(target);
   const others = decks
     .map((d, i) => ({ d, i }))
-    .filter(x => x.i !== idx);
-  const options = others.map((x, n) => `${n + 1}. ${x.d.name} (${x.d.words.length}개)`).join('\n');
+    .filter(x => x.i !== idx && deckType(x.d) === type);
 
-  const input = prompt(
-    `"${decks[idx].name}"에 합칠 단어장 번호를 선택하세요:\n\n${options}`
-  );
-  if (input === null) return;
-  const num = parseInt(input, 10);
-  if (num < 1 || num > others.length) {
-    alert('올바른 번호를 입력해 주세요.');
+  if (others.length === 0) {
+    alert('합칠 동일 종류의 단어장이 없습니다.');
     return;
   }
 
-  const target = decks[idx];
+  const options = others.map((x, n) => `${n + 1}. ${x.d.name} (${deckItems(x.d).length}개)`).join('\n');
+  const input = prompt(`"${target.name}"에 합칠 번호를 선택하세요:\n\n${options}`);
+  if (input === null) return;
+  const num = parseInt(input, 10);
+  if (num < 1 || num > others.length) { alert('올바른 번호를 입력해 주세요.'); return; }
+
   const source = others[num - 1].d;
   const sourceIdx = others[num - 1].i;
+  const tItems = deckItems(target);
+  const sItems = deckItems(source);
+  const keyOf = x => deckItemLabel(target, x).toLowerCase();
+  const existing = new Set(tItems.map(keyOf));
 
-  const existing = new Set(target.words.map(w => w.word.toLowerCase()));
   let added = 0;
-  source.words.forEach(w => {
-    if (!existing.has(w.word.toLowerCase())) {
-      target.words.push({ ...w });
-      existing.add(w.word.toLowerCase());
+  sItems.forEach(it => {
+    if (!existing.has(deckItemLabel(source, it).toLowerCase())) {
+      tItems.push({ ...it });
+      existing.add(deckItemLabel(source, it).toLowerCase());
       added++;
     }
   });
+  setDeckItems(target, tItems);
 
-  const skipped = source.words.length - added;
+  const skipped = sItems.length - added;
   const delSource = confirm(
     `${added}개 추가 완료!${skipped > 0 ? ` (중복 ${skipped}개 제외)` : ''}\n\n"${source.name}" 원본을 삭제할까요?`
   );
-  if (delSource) {
-    decks.splice(sourceIdx, 1);
-  }
+  if (delSource) decks.splice(sourceIdx, 1);
 
   saveDecks();
   renderDecks();
+}
+
+/* ============================================
+   SHARE DECK (URL)
+   ============================================ */
+function shareDeck(idx) {
+  const d = decks[idx];
+  const payload = { n: d.name, t: deckType(d), i: deckItems(d), tl: d.timeLimit || 0 };
+  let encoded;
+  try {
+    encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+  } catch(e) { alert('공유 링크 생성 실패'); return; }
+  const url = `${location.origin}${location.pathname}?deck=${encoded}`;
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => {
+      alert('📋 링크가 복사됐습니다!\n친구에게 공유하면 바로 단어장을 가져올 수 있어요.');
+    }).catch(() => { prompt('이 링크를 복사해서 공유하세요:', url); });
+  } else {
+    prompt('이 링크를 복사해서 공유하세요:', url);
+  }
+}
+
+function checkImportFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const encoded = params.get('deck');
+  if (!encoded) return;
+  try {
+    const p = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+    if (!p.n || !Array.isArray(p.i) || p.i.length === 0) return;
+    history.replaceState({}, '', location.pathname);
+
+    const type = p.t === 'sentence' ? 'sentence' : 'word';
+    const items = p.i.map(it => {
+      if (type === 'sentence') return { sentence: String(it.sentence||''), meaning: String(it.meaning||'') };
+      return { word: String(it.word||''), meaning: String(it.meaning||'') };
+    }).filter(it => (it.sentence || it.word) && it.meaning);
+    if (items.length === 0) return;
+
+    if (!confirm(`"${p.n}" 단어장을 가져올까요?\n(${items.length}개 항목)`)) return;
+
+    const deck = {
+      id: Date.now(),
+      type,
+      name: p.n,
+      createdAt: Date.now(),
+      lastStudiedAt: 0,
+      timeLimit: p.tl || 0
+    };
+    if (type === 'sentence') deck.sentences = items;
+    else deck.words = items;
+    decks.push(deck);
+    saveDecks();
+    currentTab = type;
+    localStorage.setItem(TAB_KEY, currentTab);
+    renderDecks();
+    alert(`"${p.n}" 단어장이 추가됐습니다!`);
+  } catch(e) { /* ignore */ }
 }
 
 function esc(s) {
@@ -650,12 +909,25 @@ function shuffle(arr) {
    ============================================ */
 function openModeModal(deckIdx) {
   const deck = decks[deckIdx];
-  if (!deck || deck.words.length < 4) {
-    alert('최소 4개 이상의 단어가 필요합니다.');
-    return;
-  }
+  if (!deck) return;
+  const type = deckType(deck);
+  const items = deckItems(deck);
+  if (type === 'word' && items.length < 4) { alert('최소 4개 이상의 단어가 필요합니다.'); return; }
+  if (type === 'sentence' && items.length < 1) { alert('문장이 비어있습니다.'); return; }
+
   pendingDeckIdx = deckIdx;
-  document.getElementById('modeSub').textContent = `${deck.name} · ${Math.min(500, deck.words.length)}문제`;
+  const count = Math.min(500, items.length);
+  const unit = type === 'sentence' ? '문장' : '문제';
+  document.getElementById('modeSub').textContent = `${deck.name} · ${count}${unit}`;
+
+  // Show appropriate options
+  document.getElementById('modeWordOptions').style.display = type === 'word' ? '' : 'none';
+  document.getElementById('modeSentenceOptions').style.display = type === 'sentence' ? '' : 'none';
+
+  // Sync direction UI
+  document.getElementById('dirNormal').classList.toggle('active', testDirection === 'normal');
+  document.getElementById('dirReverse').classList.toggle('active', testDirection === 'reverse');
+
   document.getElementById('modeModal').classList.add('active');
 }
 
@@ -664,11 +936,18 @@ function closeModeModal() {
   pendingDeckIdx = -1;
 }
 
+function setDirection(dir) {
+  testDirection = dir;
+  document.getElementById('dirNormal').classList.toggle('active', dir === 'normal');
+  document.getElementById('dirReverse').classList.toggle('active', dir === 'reverse');
+}
+
 function confirmMode(mode) {
   const deckIdx = pendingDeckIdx;
   closeModeModal();
   testMode = mode;
-  startTest(deckIdx);
+  if (mode === 'order') startSentenceTest(deckIdx);
+  else startTest(deckIdx);
 }
 
 /* ============================================
@@ -677,12 +956,13 @@ function confirmMode(mode) {
 function startTest(deckIdx) {
   currentDeck = decks[deckIdx];
   currentDeckIdx = deckIdx;
-  if (!currentDeck || currentDeck.words.length < 4) {
+  if (!currentDeck || (currentDeck.words || []).length < 4) {
     alert('최소 4개 이상의 단어가 필요합니다.');
     return;
   }
 
-  const indices = shuffle(Array.from({ length: currentDeck.words.length }, (_, i) => i));
+  const items = currentDeck.words;
+  const indices = shuffle(Array.from({ length: items.length }, (_, i) => i));
   testQueue = indices.slice(0, Math.min(500, indices.length));
   testIdx = 0;
   reviewList = [];
@@ -690,9 +970,12 @@ function startTest(deckIdx) {
   comboCount = 0;
   hideCombo();
 
-  // 모드에 따라 UI 전환
+  // Show word test UI, hide sentence UI
+  document.getElementById('wordArea').style.display = '';
+  document.getElementById('sentenceArea').classList.remove('active');
   document.getElementById('choicesGrid').style.display = (testMode === 'choice') ? 'grid' : 'none';
   document.getElementById('typingArea').classList.toggle('active', testMode === 'typing');
+  document.getElementById('ttsToggle').textContent = ttsEnabled ? '🔊' : '🔇';
 
   showScreen('test');
   renderQuestion();
@@ -703,43 +986,102 @@ function startTest(deckIdx) {
    ============================================ */
 function quitTest() {
   if (testIdx > 0 && !confirm('테스트를 종료할까요?\n진행 상황이 사라집니다.')) return;
+  stopTimer();
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  hideCombo();
   showScreen('home');
 }
 
 /* ============================================
-   COMBO EFFECTS
+   COMBO (simplified: top-right badge only)
    ============================================ */
 function hideCombo() {
-  const badge = document.getElementById('comboBadge');
-  badge.classList.remove('show', 'pop');
+  document.getElementById('comboBadge').classList.remove('show', 'pop');
 }
 
 function updateCombo(isCorrect) {
   const badge = document.getElementById('comboBadge');
   const numEl = document.getElementById('comboNum');
-  const burst = document.getElementById('comboBurst');
-
-  if (!isCorrect) {
-    comboCount = 0;
-    hideCombo();
-    return;
-  }
-
+  if (!isCorrect) { comboCount = 0; hideCombo(); return; }
   comboCount++;
   if (comboCount >= 5) {
     numEl.textContent = comboCount;
     badge.classList.add('show');
     badge.classList.remove('pop');
-    void badge.offsetWidth; // reflow
+    void badge.offsetWidth;
     badge.classList.add('pop');
-
-    // 마일스톤 (10, 20, 30...) 폭발 이펙트
-    if (comboCount % 10 === 0) {
-      burst.classList.remove('fire');
-      void burst.offsetWidth;
-      burst.classList.add('fire');
-    }
   }
+}
+
+/* ============================================
+   TTS
+   ============================================ */
+function speakWord(text, lang) {
+  if (!ttsEnabled) return;
+  if (!window.speechSynthesis) return;
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(text));
+    u.lang = lang || 'en-US';
+    u.rate = 0.95;
+    window.speechSynthesis.speak(u);
+  } catch(e) {}
+}
+function toggleTts() {
+  ttsEnabled = !ttsEnabled;
+  localStorage.setItem(TTS_KEY, ttsEnabled ? 'on' : 'off');
+  document.getElementById('ttsToggle').textContent = ttsEnabled ? '🔊' : '🔇';
+  if (!ttsEnabled && window.speechSynthesis) window.speechSynthesis.cancel();
+}
+function replaySpeak() {
+  if (!currentDeck) return;
+  const idx = testQueue[testIdx];
+  if (idx == null) return;
+  const items = currentDeck.words || currentDeck.sentences || [];
+  const item = items[idx];
+  if (!item) return;
+  const isReverse = testDirection === 'reverse';
+  const txt = deckType(currentDeck) === 'sentence' ? item.sentence : (isReverse ? item.meaning : item.word);
+  const lang = (deckType(currentDeck) === 'sentence' || !isReverse) ? 'en-US' : 'ko-KR';
+  speakWord(txt, lang);
+}
+
+/* ============================================
+   TIMER
+   ============================================ */
+function stopTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+  timerActive = false;
+  const el = document.getElementById('timer');
+  el.style.display = 'none';
+  el.classList.remove('warn');
+}
+function startTimer() {
+  stopTimer();
+  const tl = (currentDeck && currentDeck.timeLimit) || 0;
+  if (tl <= 0) return;
+  timerRemaining = tl;
+  timerActive = true;
+  const el = document.getElementById('timer');
+  el.style.display = '';
+  el.textContent = `⏱ ${timerRemaining}s`;
+  el.classList.toggle('warn', timerRemaining <= 3);
+  timerInterval = setInterval(() => {
+    if (feedbackLocked) return;
+    timerRemaining--;
+    el.textContent = `⏱ ${timerRemaining}s`;
+    el.classList.toggle('warn', timerRemaining <= 3);
+    if (timerRemaining <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      timerActive = false;
+      handleTimeout();
+    }
+  }, 1000);
+}
+function handleTimeout() {
+  if (testMode === 'order') { sHandleSkip(true); }
+  else { handleSkip(true); }
 }
 
 /* ============================================
@@ -749,36 +1091,47 @@ function renderQuestion() {
   const total = testQueue.length;
   const progress = testIdx + 1;
   const wordObj = currentDeck.words[testQueue[testIdx]];
+  const isReverse = testDirection === 'reverse';
 
   document.getElementById('progressTxt').textContent = `${progress} / ${total}`;
   document.getElementById('progressFill').style.width = `${(progress / total) * 100}%`;
-  document.getElementById('wordDisplay').textContent = wordObj.word;
+
+  const displayText = isReverse ? wordObj.meaning : wordObj.word;
+  document.getElementById('wordDisplay').textContent = displayText;
+  document.getElementById('wordHint').textContent = isReverse ? '단어를 맞히세요' : '뜻을 맞히세요';
+
+  // TTS (only speak English)
+  const lang = isReverse ? 'ko-KR' : 'en-US';
+  speakWord(displayText, lang);
 
   if (testMode === 'choice') {
-    // Build choices: 1 correct + 3 wrong
-    const correctMeaning = wordObj.meaning;
+    const correctAnswer = isReverse ? wordObj.word : wordObj.meaning;
     const wrongPool = [];
     for (let i = 0; i < currentDeck.words.length; i++) {
-      if (i !== testQueue[testIdx]) wrongPool.push(currentDeck.words[i].meaning);
+      if (i !== testQueue[testIdx]) {
+        wrongPool.push(isReverse ? currentDeck.words[i].word : currentDeck.words[i].meaning);
+      }
     }
     const wrongs = shuffle(wrongPool).slice(0, 3);
-    testChoices = shuffle([correctMeaning, ...wrongs]);
+    testChoices = shuffle([correctAnswer, ...wrongs]);
 
     const grid = document.getElementById('choicesGrid');
     grid.innerHTML = testChoices.map((c, i) => `
       <button class="choice-btn" onclick="handleChoice(${i})">${esc(c)}</button>
     `).join('');
   } else {
-    // Typing mode
     const input = document.getElementById('typingInput');
     const ans = document.getElementById('typingAnswer');
     input.value = '';
     input.classList.remove('correct', 'wrong');
     input.disabled = false;
     ans.textContent = '';
+    input.placeholder = isReverse ? '단어를 입력하세요' : '뜻을 입력하세요';
     document.getElementById('typingSubmit').disabled = false;
     setTimeout(() => input.focus(), 50);
   }
+
+  startTimer();
 }
 
 /* ============================================
@@ -789,22 +1142,25 @@ function handleChoice(idx) {
 
   const wordObj = currentDeck.words[testQueue[testIdx]];
   const selected = testChoices[idx];
-  const isCorrect = selected === wordObj.meaning;
+  const correctAnswer = testDirection === 'reverse' ? wordObj.word : wordObj.meaning;
+  const isCorrect = selected === correctAnswer;
 
   recordSolved();
   updateCombo(isCorrect);
 
   if (isCorrect) {
+    stopTimer();
     goNext();
   } else {
     feedbackLocked = true;
+    stopTimer();
     reviewList.push(wordObj);
 
     const btns = document.querySelectorAll('.choice-btn');
     btns.forEach((btn, i) => {
       btn.classList.add('disabled');
       if (i === idx) btn.classList.add('wrong');
-      if (testChoices[i] === wordObj.meaning) btn.classList.add('correct');
+      if (testChoices[i] === correctAnswer) btn.classList.add('correct');
     });
 
     setTimeout(() => {
@@ -817,35 +1173,95 @@ function handleChoice(idx) {
 /* ============================================
    HANDLE TYPING SUBMIT
    ============================================ */
-function normalizeMeaning(s) {
-  return String(s).toLowerCase().replace(/\s+/g, '').replace(/[.,;/~·ㆍ()"']/g, '');
+/* ============================================
+   LENIENT TYPING MATCH
+   ============================================ */
+const KOR_PARTICLES_2 = ['에서','으로','로서','로써','부터','까지','에게','한테','께서','보다','처럼','같이','마다','조차','마저','이나','이라','라고'];
+const KOR_PARTICLES_1 = ['을','를','이','가','은','는','의','에','도','만','와','과','로','나','뿐','며','고','면','서'];
+
+function stripKorTail(t) {
+  let changed = true;
+  while (changed && t.length > 1) {
+    changed = false;
+    for (const p of KOR_PARTICLES_2) {
+      if (t.endsWith(p) && t.length > p.length + 1) {
+        t = t.slice(0, -p.length); changed = true; break;
+      }
+    }
+    if (changed) continue;
+    if (t.length > 1 && KOR_PARTICLES_1.includes(t.slice(-1))) {
+      t = t.slice(0, -1); changed = true;
+    }
+  }
+  return t;
 }
 
-/** 정답 후보를 여러 구분자로 분할 */
-function splitMeanings(meaning) {
-  return meaning
-    .split(/[,，;；/·・ㆍ\n]+/)
-    .map(s => s.trim())
-    .filter(Boolean);
+function splitParts(s) {
+  return String(s).split(/[,，;；·ㆍ\n]+/).map(x => x.trim()).filter(Boolean);
+}
+
+function stripParens(s) {
+  return String(s).replace(/\([^)]*\)/g, ' ').replace(/\[[^\]]*\]/g, ' ');
+}
+
+function normalizeLoose(s, dropParens) {
+  let t = String(s).toLowerCase();
+  if (dropParens) t = stripParens(t);
+  else t = t.replace(/[()\[\]]/g, ' ');
+  t = t.replace(/[.,;!?~'"`\/]+/g, ' ');
+  const toks = t.split(/\s+/).filter(Boolean).map(stripKorTail);
+  return toks.join('');
+}
+
+function buildCorrectVariants(meaning) {
+  const set = new Set();
+  [meaning, ...splitParts(meaning)].forEach(src => {
+    const a = normalizeLoose(src, true);
+    const b = normalizeLoose(src, false);
+    if (a) set.add(a);
+    if (b) set.add(b);
+  });
+  set.delete('');
+  return set;
+}
+
+function normalizeEnglish(s) {
+  return String(s).toLowerCase().replace(/\s+/g, ' ').trim()
+    .replace(/[.,;!?'"`]/g, '').replace(/\s+/g, '');
+}
+
+function checkTypingAnswer(userInput, correctAnswer, isEnglish) {
+  if (!userInput.trim()) return false;
+  if (isEnglish) {
+    const c = normalizeEnglish(correctAnswer);
+    return splitParts(userInput).some(u => normalizeEnglish(u) === c)
+      || normalizeEnglish(userInput) === c;
+  }
+  const correctSet = buildCorrectVariants(correctAnswer);
+  const userParts = [userInput, ...splitParts(userInput)];
+  for (const up of userParts) {
+    const a = normalizeLoose(up, true);
+    const b = normalizeLoose(up, false);
+    if (a && correctSet.has(a)) return true;
+    if (b && correctSet.has(b)) return true;
+  }
+  return false;
 }
 
 function handleTypingSubmit() {
   if (feedbackLocked) return;
-
   const input = document.getElementById('typingInput');
   const userAnswer = input.value.trim();
   if (!userAnswer) return;
 
   const wordObj = currentDeck.words[testQueue[testIdx]];
-  const correctVariants = splitMeanings(wordObj.meaning).map(normalizeMeaning);
-  const userNormalized = normalizeMeaning(userAnswer);
-
-  // 사용자 답도 콤마로 분할해서 하나라도 맞으면 정답
-  const userVariants = splitMeanings(userAnswer).map(normalizeMeaning);
-  const isCorrect = userVariants.some(u => correctVariants.includes(u));
+  const isReverse = testDirection === 'reverse';
+  const correctText = isReverse ? wordObj.word : wordObj.meaning;
+  const isCorrect = checkTypingAnswer(userAnswer, correctText, isReverse);
 
   recordSolved();
   updateCombo(isCorrect);
+  stopTimer();
 
   feedbackLocked = true;
   input.disabled = true;
@@ -853,51 +1269,48 @@ function handleTypingSubmit() {
 
   if (isCorrect) {
     input.classList.add('correct');
-    setTimeout(() => {
-      feedbackLocked = false;
-      goNext();
-    }, 300);
+    setTimeout(() => { feedbackLocked = false; goNext(); }, 300);
   } else {
     reviewList.push(wordObj);
     input.classList.add('wrong');
-    document.getElementById('typingAnswer').textContent = `✓ ${wordObj.meaning}`;
-    setTimeout(() => {
-      feedbackLocked = false;
-      goNext();
-    }, 1200);
+    document.getElementById('typingAnswer').textContent = `✓ ${correctText}`;
+    setTimeout(() => { feedbackLocked = false; goNext(); }, 1400);
   }
 }
 
 /* ============================================
    HANDLE SKIP
    ============================================ */
-function handleSkip() {
+function handleSkip(isTimeout) {
   if (feedbackLocked) return;
   feedbackLocked = true;
+  stopTimer();
 
   const wordObj = currentDeck.words[testQueue[testIdx]];
   reviewList.push(wordObj);
   recordSolved();
   updateCombo(false);
 
+  const correctText = testDirection === 'reverse' ? wordObj.word : wordObj.meaning;
+
   if (testMode === 'choice') {
     const btns = document.querySelectorAll('.choice-btn');
     btns.forEach((btn, i) => {
       btn.classList.add('disabled');
-      if (testChoices[i] === wordObj.meaning) btn.classList.add('reveal');
+      if (testChoices[i] === correctText) btn.classList.add('reveal');
     });
   } else {
     const input = document.getElementById('typingInput');
     input.disabled = true;
     input.classList.add('wrong');
     document.getElementById('typingSubmit').disabled = true;
-    document.getElementById('typingAnswer').textContent = `✓ ${wordObj.meaning}`;
+    document.getElementById('typingAnswer').textContent = `✓ ${correctText}`;
   }
 
   setTimeout(() => {
     feedbackLocked = false;
     goNext();
-  }, testMode === 'choice' ? 500 : 1200);
+  }, testMode === 'choice' ? 600 : 1400);
 }
 
 /* ============================================
@@ -906,7 +1319,8 @@ function handleSkip() {
 function goNext() {
   testIdx++;
   if (testIdx >= testQueue.length) {
-    // 학습 시각 기록
+    stopTimer();
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
     if (currentDeckIdx >= 0 && decks[currentDeckIdx]) {
       decks[currentDeckIdx].lastStudiedAt = Date.now();
       saveDecks();
@@ -914,7 +1328,8 @@ function goNext() {
     showReview();
     return;
   }
-  renderQuestion();
+  if (testMode === 'order') sRenderQuestion();
+  else renderQuestion();
 }
 
 /* ============================================
@@ -922,35 +1337,51 @@ function goNext() {
    ============================================ */
 function openEdit(idx) {
   editDeckIdx = idx;
-  editWords = decks[idx].words.map(w => ({ ...w }));
-  document.getElementById('editTitleInput').value = decks[idx].name;
+  const d = decks[idx];
+  const type = deckType(d);
+  editItems = deckItems(d).map(it => ({ ...it }));
+  document.getElementById('editTitleInput').value = d.name;
+  document.getElementById('editTimeLimit').value = d.timeLimit || '';
   renderEditList();
   showScreen('edit');
 }
 
 function renderEditList() {
-  document.getElementById('editCount').textContent = `${editWords.length}개`;
+  const d = decks[editDeckIdx];
+  const type = deckType(d);
+  document.getElementById('editCount').textContent = `${editItems.length}개`;
   const el = document.getElementById('editList');
-  el.innerHTML = editWords.map((w, i) => `
+  const primaryField = type === 'sentence' ? 'sentence' : 'word';
+  const primaryPh = type === 'sentence' ? '영어 문장' : '영단어';
+  el.innerHTML = editItems.map((it, i) => `
     <div class="edit-row">
       <div class="edit-word">
-        <input type="text" value="${esc(w.word)}" onchange="editWords[${i}].word=this.value" placeholder="영단어">
+        <input type="text" value="${esc(it[primaryField] || '')}" data-field="primary" data-idx="${i}" placeholder="${primaryPh}">
       </div>
       <div class="edit-meaning">
-        <input type="text" value="${esc(w.meaning)}" onchange="editWords[${i}].meaning=this.value" placeholder="뜻">
+        <input type="text" value="${esc(it.meaning || '')}" data-field="meaning" data-idx="${i}" placeholder="뜻">
       </div>
       <button class="edit-del" onclick="removeWord(${i})">✕</button>
     </div>
   `).join('');
+  // Wire input handlers
+  el.querySelectorAll('input').forEach(inp => {
+    inp.addEventListener('input', (e) => {
+      const idx = parseInt(e.target.dataset.idx, 10);
+      const field = e.target.dataset.field === 'primary' ? primaryField : 'meaning';
+      editItems[idx][field] = e.target.value;
+    });
+  });
 }
 
 function removeWord(idx) {
-  editWords.splice(idx, 1);
+  editItems.splice(idx, 1);
   renderEditList();
 }
 
 function addWord() {
-  editWords.push({ word: '', meaning: '' });
+  const type = deckType(decks[editDeckIdx]);
+  editItems.push(type === 'sentence' ? { sentence: '', meaning: '' } : { word: '', meaning: '' });
   renderEditList();
   const el = document.getElementById('editList');
   el.scrollTop = el.scrollHeight;
@@ -959,21 +1390,164 @@ function addWord() {
 }
 
 function saveAndBack() {
+  const d = decks[editDeckIdx];
+  const type = deckType(d);
   const newName = document.getElementById('editTitleInput').value.trim();
-  if (newName) decks[editDeckIdx].name = newName;
+  if (newName) d.name = newName;
 
-  const rows = document.querySelectorAll('#editList .edit-row');
-  const updated = [];
-  rows.forEach((row, i) => {
-    const inputs = row.querySelectorAll('input');
-    const w = inputs[0].value.trim();
-    const m = inputs[1].value.trim();
-    if (w && m) updated.push({ word: w, meaning: m });
-  });
+  const tl = parseInt(document.getElementById('editTimeLimit').value, 10);
+  d.timeLimit = (isNaN(tl) || tl < 0) ? 0 : Math.min(300, tl);
 
-  decks[editDeckIdx].words = updated;
+  const updated = editItems
+    .map(it => type === 'sentence'
+      ? { sentence: String(it.sentence || '').trim(), meaning: String(it.meaning || '').trim() }
+      : { word: String(it.word || '').trim(), meaning: String(it.meaning || '').trim() })
+    .filter(it => (it.sentence || it.word) && it.meaning);
+  setDeckItems(d, updated);
+
   saveDecks();
   showScreen('home');
+}
+
+/* ============================================
+   SENTENCE TEST (order mode)
+   ============================================ */
+let sTokens = [];     // correct tokens
+let sBank = [];       // [{id, token, placed}]
+let sSelected = [];   // array of bank ids in chosen order
+
+function tokenizeSentence(s) {
+  return String(s).trim().split(/\s+/).filter(Boolean);
+}
+
+function startSentenceTest(deckIdx) {
+  currentDeck = decks[deckIdx];
+  currentDeckIdx = deckIdx;
+  const items = currentDeck.sentences || [];
+  if (items.length < 1) { alert('문장이 없습니다.'); return; }
+
+  const indices = shuffle(Array.from({ length: items.length }, (_, i) => i));
+  testQueue = indices.slice(0, Math.min(500, indices.length));
+  testIdx = 0;
+  reviewList = [];
+  feedbackLocked = false;
+  comboCount = 0;
+  hideCombo();
+
+  // UI: hide word, show sentence
+  document.getElementById('wordArea').style.display = 'none';
+  document.getElementById('choicesGrid').style.display = 'none';
+  document.getElementById('typingArea').classList.remove('active');
+  document.getElementById('sentenceArea').classList.add('active');
+  document.getElementById('ttsToggle').textContent = ttsEnabled ? '🔊' : '🔇';
+
+  showScreen('test');
+  sRenderQuestion();
+}
+
+function sRenderQuestion() {
+  const total = testQueue.length;
+  const progress = testIdx + 1;
+  const item = currentDeck.sentences[testQueue[testIdx]];
+
+  document.getElementById('progressTxt').textContent = `${progress} / ${total}`;
+  document.getElementById('progressFill').style.width = `${(progress / total) * 100}%`;
+  document.getElementById('sMeaning').textContent = item.meaning;
+  document.getElementById('sRevealAns').textContent = '';
+  document.getElementById('sCheckBtn').disabled = true;
+
+  sTokens = tokenizeSentence(item.sentence);
+  // Build bank: preserve token, shuffle order
+  const indexed = sTokens.map((t, i) => ({ id: i, token: t, placed: false }));
+  sBank = shuffle(indexed);
+  sSelected = [];
+
+  renderSentenceUI();
+  speakWord(item.sentence, 'en-US');
+  startTimer();
+}
+
+function renderSentenceUI() {
+  const slots = document.getElementById('sSlots');
+  const bank = document.getElementById('sBank');
+
+  // Slots = chosen tokens (in chosen order)
+  slots.innerHTML = sSelected.length === 0
+    ? '<span style="color:var(--sub);font-size:13px;padding:8px">여기에 단어를 순서대로 놓으세요</span>'
+    : sSelected.map(bid => {
+        const b = sBank.find(x => x.id === bid);
+        return `<button class="tok-btn placed" onclick="sUnplace(${bid})">${esc(b.token)}</button>`;
+      }).join('');
+
+  // Bank: hide placed ones
+  bank.innerHTML = sBank.map(b => {
+    if (b.placed) return `<button class="tok-btn hidden-slot">${esc(b.token)}</button>`;
+    return `<button class="tok-btn" onclick="sPlace(${b.id})">${esc(b.token)}</button>`;
+  }).join('');
+
+  document.getElementById('sCheckBtn').disabled = sSelected.length !== sTokens.length || feedbackLocked;
+  slots.classList.remove('correct','wrong');
+}
+
+function sPlace(id) {
+  if (feedbackLocked) return;
+  const b = sBank.find(x => x.id === id);
+  if (!b || b.placed) return;
+  b.placed = true;
+  sSelected.push(id);
+  renderSentenceUI();
+  if (sSelected.length === sTokens.length) {
+    // Auto-check
+    sCheckAnswer();
+  }
+}
+
+function sUnplace(id) {
+  if (feedbackLocked) return;
+  const b = sBank.find(x => x.id === id);
+  if (!b || !b.placed) return;
+  b.placed = false;
+  sSelected = sSelected.filter(x => x !== id);
+  renderSentenceUI();
+}
+
+function sCheckAnswer() {
+  if (feedbackLocked) return;
+  if (sSelected.length !== sTokens.length) return;
+  feedbackLocked = true;
+  stopTimer();
+
+  const item = currentDeck.sentences[testQueue[testIdx]];
+  // Check by original id order: sSelected should be [0,1,2,...]
+  const isCorrect = sSelected.every((id, i) => id === i);
+
+  recordSolved();
+  updateCombo(isCorrect);
+
+  const slots = document.getElementById('sSlots');
+  if (isCorrect) {
+    slots.classList.add('correct');
+    document.getElementById('sRevealAns').textContent = `✓ ${item.sentence}`;
+    setTimeout(() => { feedbackLocked = false; goNext(); }, 700);
+  } else {
+    reviewList.push(item);
+    slots.classList.add('wrong');
+    document.getElementById('sRevealAns').textContent = `✓ ${item.sentence}`;
+    setTimeout(() => { feedbackLocked = false; goNext(); }, 1800);
+  }
+}
+
+function sHandleSkip(isTimeout) {
+  if (feedbackLocked) return;
+  feedbackLocked = true;
+  stopTimer();
+  const item = currentDeck.sentences[testQueue[testIdx]];
+  reviewList.push(item);
+  recordSolved();
+  updateCombo(false);
+  document.getElementById('sSlots').classList.add('wrong');
+  document.getElementById('sRevealAns').textContent = `✓ ${item.sentence}`;
+  setTimeout(() => { feedbackLocked = false; goNext(); }, 1800);
 }
 
 /* ============================================
@@ -998,15 +1572,18 @@ function showReview() {
   const actionsEl = document.getElementById('reviewActions');
 
   if (reviewList.length === 0) {
-    listEl.innerHTML = '<div class="review-perfect"><span>🏆</span><p>틀린 단어가 없습니다!<br>다른 단어장도 도전해 보세요.</p></div>';
+    listEl.innerHTML = '<div class="review-perfect"><span>🏆</span><p>틀린 항목이 없습니다!<br>다른 단어장도 도전해 보세요.</p></div>';
     actionsEl.innerHTML = '';
   } else {
-    listEl.innerHTML = reviewList.map(w => `
-      <div class="review-row">
-        <div class="review-word">${esc(w.word)}</div>
-        <div class="review-meaning">${esc(w.meaning)}</div>
-      </div>
-    `).join('');
+    const isSentence = deckType(currentDeck) === 'sentence';
+    listEl.innerHTML = reviewList.map(w => {
+      const primary = isSentence ? w.sentence : w.word;
+      return `
+        <div class="review-row">
+          <div class="review-word"${isSentence ? ' style="width:48%"' : ''}>${esc(primary)}</div>
+          <div class="review-meaning"${isSentence ? ' style="width:52%"' : ''}>${esc(w.meaning)}</div>
+        </div>`;
+    }).join('');
 
     actionsEl.innerHTML = `
       <button onclick="downloadReviewXlsx()"><span class="act-icon">↓</span>엑셀 저장</button>
@@ -1021,12 +1598,14 @@ function showReview() {
    REVIEW: DOWNLOAD XLSX
    ============================================ */
 function downloadReviewXlsx() {
-  const data = [['Word', 'Meaning']];
-  reviewList.forEach(w => data.push([w.word, w.meaning]));
+  const isSentence = deckType(currentDeck) === 'sentence';
+  const header = isSentence ? ['Sentence','Meaning'] : ['Word','Meaning'];
+  const data = [header];
+  reviewList.forEach(w => data.push([isSentence ? w.sentence : w.word, w.meaning]));
   const ws = XLSX.utils.aoa_to_sheet(data);
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Wrong Words');
-  ws['!cols'] = [{ wch: 20 }, { wch: 40 }];
+  XLSX.utils.book_append_sheet(wb, ws, 'Wrong');
+  ws['!cols'] = [{ wch: isSentence ? 40 : 20 }, { wch: 40 }];
 
   const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
   const blob = new Blob([wbout], { type: 'application/octet-stream' });
@@ -1044,13 +1623,17 @@ function downloadReviewXlsx() {
 function addReviewToDeck() {
   const today = new Date().toLocaleDateString('ko-KR').replace(/\. /g,'.').replace(/\.$/,'');
   const deckName = currentDeck ? currentDeck.name : '';
+  const type = deckType(currentDeck);
   const newDeck = {
     id: Date.now(),
+    type,
     name: `${deckName} 오답 ${today}`,
-    words: reviewList.map(w => ({ ...w })),
     createdAt: Date.now(),
-    lastStudiedAt: 0
+    lastStudiedAt: 0,
+    timeLimit: 0
   };
+  if (type === 'sentence') newDeck.sentences = reviewList.map(w => ({ ...w }));
+  else newDeck.words = reviewList.map(w => ({ ...w }));
   decks.push(newDeck);
   saveDecks();
   alert(`"${newDeck.name}" 단어장 생성! (${reviewList.length}개)`);
@@ -1072,6 +1655,11 @@ if ('serviceWorker' in navigator) {
 }
 
 /* ── Init ── */
+// Apply stored tab
+document.querySelectorAll('.tab-btn').forEach(b => {
+  b.classList.toggle('active', b.dataset.tab === currentTab);
+});
+checkImportFromUrl();
 renderDecks();
 renderStreak();
 </script>
