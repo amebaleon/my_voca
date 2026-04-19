@@ -265,8 +265,7 @@ function openModeModal(deckIdx) {
   if (!deck) return;
   const type  = deckType(deck);
   const items = deckItems(deck);
-  if (type === 'word'     && items.length < 4) { alert('최소 4개 이상의 단어가 필요합니다.'); return; }
-  if (type === 'sentence' && items.length < 1) { alert('문장이 비어있습니다.'); return; }
+  if (items.length < 1) { alert(type === 'sentence' ? '문장이 비어있습니다.' : '단어가 없습니다.'); return; }
 
   pendingDeckIdx = deckIdx;
   const count = Math.min(500, items.length);
@@ -275,6 +274,15 @@ function openModeModal(deckIdx) {
 
   document.getElementById('modeWordOptions').style.display     = type === 'word'     ? '' : 'none';
   document.getElementById('modeSentenceOptions').style.display = type === 'sentence' ? '' : 'none';
+
+  // 4지선다는 4개 이상 필요 — 부족하면 버튼 비활성화
+  if (type === 'word') {
+    const choiceOpt = document.querySelector('#modeWordOptions .mode-opt');
+    const tooFew    = items.length < 4;
+    choiceOpt.disabled = tooFew;
+    choiceOpt.style.opacity = tooFew ? '0.4' : '';
+    choiceOpt.title = tooFew ? '4지선다는 단어 4개 이상 필요' : '';
+  }
 
   // Sync direction toggle
   document.getElementById('dirNormal').classList.toggle('active',  testDirection === 'normal');
@@ -312,8 +320,11 @@ function confirmMode(mode) {
 function startTest(deckIdx) {
   currentDeck    = decks[deckIdx];
   currentDeckIdx = deckIdx;
-  if (!currentDeck || (currentDeck.words || []).length < 4) {
-    alert('최소 4개 이상의 단어가 필요합니다.'); return;
+  if (!currentDeck || (currentDeck.words || []).length < 1) {
+    alert('단어가 없습니다.'); return;
+  }
+  if (testMode === 'choice' && currentDeck.words.length < 4) {
+    alert('4지선다는 단어 4개 이상 필요합니다.'); return;
   }
 
   const indices = shuffle(Array.from({ length: currentDeck.words.length }, (_, i) => i));
