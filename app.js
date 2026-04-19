@@ -865,6 +865,10 @@ function sRenderQuestion() {
   document.getElementById('sCheckBtn').disabled       = true;
 
   sTokens   = tokenizeSentence(item.meaning); // B열 = 정답 (영어 문장)
+
+  // Edge-guard: meaning이 비어있으면 넘기기 처리
+  if (sTokens.length === 0) { sHandleSkip(); return; }
+
   sBank     = shuffle(sTokens.map((t, i) => ({ id: i, token: t, placed: false })));
   sSelected = [];
 
