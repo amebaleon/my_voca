@@ -1,7 +1,11 @@
-const CACHE_NAME = 'vocaflash-v10';
+const CACHE_NAME = 'vocaflash-v11';
 const ASSETS = [
   './',
   './index.html',
+  './style.css',
+  './store.js',
+  './ui.js',
+  './app.js',
   './icon-192.png',
   './icon-512.png',
   './manifest.json',
