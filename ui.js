@@ -28,8 +28,13 @@ function toggleTheme() {
   applyTheme(next);
 }
 
-// Apply saved theme immediately on load
-applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+// Apply saved theme immediately on load.
+// First visit: auto-detect OS dark/light preference via prefers-color-scheme.
+(function initTheme() {
+  const saved    = localStorage.getItem(THEME_KEY);
+  const preferred = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  applyTheme(saved || preferred);
+})();
 
 /* ══════════════════════════════════════════
    SCREEN NAVIGATION

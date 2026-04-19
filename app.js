@@ -707,9 +707,11 @@ function handleTypingSubmit() {
 
 /**
  * Skip the current question (user pressed skip or timer ran out).
+ * Routes to sHandleSkip() in sentence-order mode.
  * @param {boolean} [isTimeout=false]
  */
 function handleSkip(isTimeout) {
+  if (testMode === 'order') { sHandleSkip(isTimeout); return; } // sentence mode
   if (feedbackLocked) return;
   feedbackLocked = true;
   stopTimer();
@@ -980,12 +982,64 @@ function showReview() {
     }).join('');
 
     actionsEl.innerHTML = `
+      <button onclick="retryWrong()"><span class="act-icon">🔄</span>오답만 다시</button>
       <button onclick="downloadReviewXlsx()"><span class="act-icon">↓</span>엑셀 저장</button>
       <button onclick="addReviewToDeck()"><span class="act-icon">+</span>단어장 추가</button>
     `;
   }
 
   showScreen('review');
+}
+
+/* ══════════════════════════════════════════
+   REVIEW: RETRY WRONG ITEMS ONLY
+   ══════════════════════════════════════════ */
+
+/**
+ * Re-start a test using only the items the user got wrong.
+ * For word decks with < 4 wrong items, falls back to typing mode.
+ */
+function retryWrong() {
+  if (!reviewList.length) return;
+  const isSentence = deckType(currentDeck) === 'sentence';
+  const items      = reviewList.map(w => ({ ...w }));
+
+  // Rebuild a temporary deck with only the wrong items
+  currentDeck = { ...currentDeck };
+  if (isSentence) {
+    currentDeck.sentences = items;
+    testMode = 'order';
+  } else {
+    currentDeck.words = items;
+    // Fall back to typing if too few items for 4-option choice
+    if (testMode === 'choice' && items.length < 4) testMode = 'typing';
+  }
+
+  const indices = shuffle(Array.from({ length: items.length }, (_, i) => i));
+  testQueue      = indices.slice(0, Math.min(500, indices.length));
+  testIdx        = 0;
+  reviewList     = [];
+  feedbackLocked = false;
+  comboCount     = 0;
+  hideCombo();
+
+  if (isSentence) {
+    document.getElementById('wordArea').style.display    = 'none';
+    document.getElementById('choicesGrid').style.display = 'none';
+    document.getElementById('typingArea').classList.remove('active');
+    document.getElementById('sentenceArea').classList.add('active');
+    document.getElementById('ttsToggle').textContent     = ttsEnabled ? '🔊' : '🔇';
+    showScreen('test');
+    sRenderQuestion();
+  } else {
+    document.getElementById('wordArea').style.display    = '';
+    document.getElementById('sentenceArea').classList.remove('active');
+    document.getElementById('choicesGrid').style.display = testMode === 'choice' ? 'grid' : 'none';
+    document.getElementById('typingArea').classList.toggle('active', testMode === 'typing');
+    document.getElementById('ttsToggle').textContent     = ttsEnabled ? '🔊' : '🔇';
+    showScreen('test');
+    renderQuestion();
+  }
 }
 
 /* ══════════════════════════════════════════
@@ -1041,6 +1095,31 @@ function addReviewToDeck() {
 // Enter key in typing input → submit answer
 document.getElementById('typingInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') { e.preventDefault(); handleTypingSubmit(); }
+});
+
+// Global keyboard shortcuts (desktop)
+document.addEventListener('keydown', e => {
+  // Don't fire when focus is inside an input / textarea
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  // Only fire on the test screen
+  if (!document.getElementById('test').classList.contains('active')) return;
+  if (feedbackLocked) return;
+
+  if (testMode === 'choice') {
+    // 1–4: select choice button
+    const n = parseInt(e.key, 10);
+    if (n >= 1 && n <= 4) {
+      e.preventDefault();
+      const btn = document.querySelectorAll('.choice-btn')[n - 1];
+      if (btn) btn.click();
+    }
+  }
+
+  // Space: skip current question
+  if (e.key === ' ') {
+    e.preventDefault();
+    handleSkip();
+  }
 });
 
 /* ══════════════════════════════════════════

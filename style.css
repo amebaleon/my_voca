@@ -198,7 +198,7 @@ input[type=file]{display:none}
 .review-perfect p{font-size:15px;line-height:1.6}
 .review-bottom{flex-shrink:0;padding-top:10px}
 .review-actions{display:flex;gap:8px;margin-bottom:8px}
-.review-actions button{flex:1;padding:11px 6px;border-radius:var(--radius);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:5px;background:var(--card2);color:var(--text);border:1px solid var(--border)}
+.review-actions button{flex:1;padding:10px 4px;border-radius:var(--radius);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:4px;background:var(--card2);color:var(--text);border:1px solid var(--border)}
 .review-actions button:active{background:var(--card3)}
 .review-actions .act-icon{font-size:15px}
 .home-btn{width:100%;padding:14px;background:var(--blue);color:#fff;font-size:15px;font-weight:700;border-radius:var(--radius);transition:background .15s}
