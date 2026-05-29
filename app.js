@@ -268,7 +268,7 @@ function openModeModal(deckIdx) {
   if (items.length < 1) { alert(type === 'sentence' ? '문장이 비어있습니다.' : '단어가 없습니다.'); return; }
 
   pendingDeckIdx = deckIdx;
-  const count = Math.min(500, items.length);
+  const count =items.length;
   const unit  = type === 'sentence' ? '문장' : '문제';
   document.getElementById('modeSub').textContent = `${deck.name} · ${count}${unit}`;
 
@@ -328,7 +328,7 @@ function startTest(deckIdx) {
   }
 
   const indices = shuffle(Array.from({ length: currentDeck.words.length }, (_, i) => i));
-  testQueue      = indices.slice(0, Math.min(500, indices.length));
+  testQueue      = indices;
   testIdx        = 0;
   reviewList     = [];
   feedbackLocked = false;
@@ -846,7 +846,7 @@ function startSentenceTest(deckIdx) {
   if (items.length < 1) { alert('문장이 없습니다.'); return; }
 
   const indices  = shuffle(Array.from({ length: items.length }, (_, i) => i));
-  testQueue      = indices.slice(0, Math.min(500, indices.length));
+  testQueue      = indices;
   testIdx        = 0;
   reviewList     = [];
   feedbackLocked = false;
@@ -1031,7 +1031,7 @@ function retryWrong() {
   }
 
   const indices = shuffle(Array.from({ length: items.length }, (_, i) => i));
-  testQueue      = indices.slice(0, Math.min(500, indices.length));
+  testQueue      = indices;
   testIdx        = 0;
   reviewList     = [];
   feedbackLocked = false;
